@@ -8,7 +8,7 @@ var gameoverlayer = cc.Layer.extend({
         label.setPosition(size.width / 2, size.height * 4 / 5);
         this.addChild(label, 4);
         return true;
-      }
+    }
 });
 
 var gameover = cc.Scene.extend({
