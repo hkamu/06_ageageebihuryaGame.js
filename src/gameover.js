@@ -8,7 +8,7 @@ var ThirdLayer = cc.Layer.extend({
         gameoverBG_png.setPosition(size.width / 2, size.height / 2);
         this.addChild(gameoverBG_png);
 
-        var label = cc.LabelTTF.create("GAME OVER", "怨霊", 60);
+        var label = cc.LabelTTF.create("GAME OVER","怨霊", 60);
         label.setPosition(size.width / 2, size.height * 4 / 5);
         this.addChild(label, 1);
 
@@ -30,7 +30,6 @@ var ThirdLayer = cc.Layer.extend({
     },
     onTouchMoved: function(touch, event) {},
     onTouchEnded: function(touch, event) {
-      audioEngine.setMusicVolume(audioEngine.getMusicVolume(res.bgm_main) + 0.5);
       cc.director.runScene(new gameScene());
     },
 });

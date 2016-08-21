@@ -11,7 +11,7 @@ var res = {
     start_png:"res/start.png",
     gameoverBG_png:"res/arashi.png",
     replay_png:"res/replay_button.png",
-    zanki_png:"res/zanki.png",
+    //zanki_png:"res/zanki.png",
 
     //エビ
     shrimp01_png:"res/shrimp01.png",

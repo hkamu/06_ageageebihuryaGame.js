@@ -8,7 +8,7 @@ var gameLayer;
 var background;
 var scrollSpeed = 1;
 var score = 0;
-var zanki = 5;
+var zanki = 4;
 //宇宙船で追加した部分　重力
 var ship;
 var i =0;
@@ -30,9 +30,9 @@ var gameScene = cc.Scene.extend({
     gameLayer.init();
     this.addChild(gameLayer);
 
-    zankidisp = new zankidisp();
-    zankidisp.init();
-    this.addChild(zankidisp);
+    /*HPdisp = new HPdisp();
+    HPdisp.init();
+    this.addChild(HPdisp);*/
 
     //音楽再生エンジン
     audioEngine = cc.audioEngine;
@@ -88,6 +88,10 @@ var game = cc.Layer.extend({
 
     ship = new Ship();
     this.addChild(ship);
+
+    zankiText = cc.LabelTTF.create("残機:" +zanki ,"Arial","30",cc.TEXT_ALIGNMENT_CENTER);
+    this.addChild(zankiText);
+    zankiText.setPosition(50,300);
 
     scoreText = cc.LabelTTF.create("Score:" +score ,"Stencil Std","20",cc.TEXT_ALIGNMENT_CENTER);
     this.addChild(scoreText);
@@ -176,7 +180,7 @@ var ScrollingROCKUP = cc.Sprite.extend({
   },
   scroll: function() {
     //座標を更新する
-    this.setPosition(this.getPosition().x - scrollSpeed * 1.5, this.getPosition().y);
+    this.setPosition(this.getPosition().x - scrollSpeed *2, this.getPosition().y);
     //画面の端に到達したら反対側の座標にする
     if (this.getPosition().x < 0) {
       this.setPosition(this.getPosition().x + 320, this.getPosition().y);
@@ -198,7 +202,7 @@ var ScrollingROCKUNDER = cc.Sprite.extend({
   },
   scroll: function() {
     //座標を更新する
-    this.setPosition(this.getPosition().x - scrollSpeed * 1.5, this.getPosition().y);
+    this.setPosition(this.getPosition().x - scrollSpeed *2, this.getPosition().y);
     //画面の端に到達したら反対側の座標にする
     if (this.getPosition().x < 0) {
       this.setPosition(this.getPosition().x + 320, this.getPosition().y);
@@ -220,7 +224,7 @@ var ScrollingUP = cc.Sprite.extend({
   },
   scroll: function() {
     //座標を更新する
-    this.setPosition(this.getPosition().x - scrollSpeed * 2, this.getPosition().y);
+    this.setPosition(this.getPosition().x - scrollSpeed *3, this.getPosition().y);
     //画面の端に到達したら反対側の座標にする
     if (this.getPosition().x < 0) {
       this.setPosition(this.getPosition().x + 320, this.getPosition().y);
@@ -241,7 +245,7 @@ var ScrollingUNDER = cc.Sprite.extend({
   },
   scroll: function() {
     //座標を更新する
-    this.setPosition(this.getPosition().x - scrollSpeed * 2, this.getPosition().y);
+    this.setPosition(this.getPosition().x - scrollSpeed *3, this.getPosition().y);
     //画面の端に到達したら反対側の座標にする
     if (this.getPosition().x < 0) {
       this.setPosition(this.getPosition().x + 320, this.getPosition().y);
@@ -397,7 +401,7 @@ var Asteroid = cc.Sprite.extend({
   }
 });
 //HPの画像表示
-var zankidisp = cc.Layer.extend({
+/*var HPdisp = cc.Layer.extend({
   //ctorはコンストラクタ　クラスがインスタンスされたときに必ず実行される
   init: function() {
     this._super();
@@ -406,40 +410,43 @@ var zankidisp = cc.Layer.extend({
     this.addChild(ebi,0,0);
 
     var ebi2 = cc.Sprite.create(res.zanki_png);　
-    ebi2.setPosition(60, 300);　
-    this.addChild(ebi,0,1);
+    ebi2.setPosition(80, 300);　
+    this.addChild(ebi2,0,1);
 
     var ebi3 = cc.Sprite.create(res.zanki_png);　
-    ebi3.setPosition(90, 300);　
+    ebi3.setPosition(130, 300);　
     this.addChild(ebi3,0,2);
 
     var ebi4 = cc.Sprite.create(res.zanki_png);　
-    ebi4.setPosition(120, 300);　
+    ebi4.setPosition(180, 300);　
     this.addChild(ebi4,0,3);
-
-    var ebi5 = cc.Sprite.create(res.zanki_png);　
-    ebi5.setPosition(150, 300);　
-    this.addChild(ebi5,0,4);
   }
-});
+});*/
 
 //宇宙船を元の位置に戻して、宇宙船の変数を初期化する
 function restartGame() {
   audioEngine.playEffect(res.se_miss);
 
-  zanki --;
-  zankidisp.removeChildByTag(zanki);
+  zanki--;
+    zankiText.setString("残機:"+zanki);
+      //◆お手付きが0になったらゲームオーバー◆
+      if(zanki < 0){
+        zanki = 3;
+        cc.director.runScene(new GameOverScene());
+  }
+  /*HP --;
+  HPdisp.removeChildByTag(HP);
 
-  if(zanki < 0){
+  if(HP < 0){
 
-    zanki = 5;
+    HP = 4;*/
     //BGM終わり
-      audioEngine.stopMusic();
-      audioEngine.stopAllEffects();
+      //audioEngine.stopMusic();
+      //audioEngine.stopAllEffects();
 
     //GameOverScene移行
-    cc.director.runScene(new GameOverScene());
-  }
+    //cc.director.runScene(new GameOverScene());
+  //}
   ship.ySpeed = 0;
   ship.setPosition(ship.getPosition().x, 160);
   ship.invulnerability = 100;
